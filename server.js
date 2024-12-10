@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors")
+const path = require('path');
+
 
 const Pet = require("./models/pet.js")
 
@@ -16,7 +18,14 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Routes go here
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Pets CRUD API!');
+});
+
 app.post('/pets', async(req, res) => {
 
   try {
