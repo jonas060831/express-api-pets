@@ -9,15 +9,16 @@
       font-family: Arial, sans-serif;
       text-align: center;
       background-color: #f9f9f9;
+      color: white;
     }
     h1 {
-      color: #ffcc00;
+      color: brown;
       text-shadow: 2px 2px 2px #333;
     }
     .container {
       width: 80%;
       margin: 20px auto;
-      background: #fff;
+      background: brown;
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 8px;
@@ -28,14 +29,14 @@
       font-size: 16px;
     }
     button {
-      background-color: #ffcc00;
+      background-color: green;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
     button:hover {
-      background-color: #ffaa00;
+      background-color: darkgreen;
     }
     table {
       width: 100%;
@@ -48,7 +49,7 @@
       text-align: left;
     }
     th {
-      background-color: #ffcc00;
+      background-color: brown;
     }
   </style>
 </head>
@@ -64,7 +65,7 @@
 
   <div class="container">
     <h2>All Pets</h2>
-    <button onclick="getAllPokemon()">Refresh</button>
+    <button onclick="getAllPets()">Refresh</button>
     <table>
       <thead>
         <tr>
@@ -96,30 +97,30 @@
 
       if (response.ok) {
         alert('Pet created successfully!');
-        getAllPokemon();
+        getAllPets();
       } else {
         alert('Failed to create Pet.');
       }
     }
 
     // Get All Pokémon
-    async function getAllPokemon() {
+    async function getAllPets() {
       const response = await fetch(baseUrl);
-      const pokemons = await response.json();
+      const pets = await response.json();
 
       const tableBody = document.getElementById('pokemonTable');
       tableBody.innerHTML = '';
 
-      pokemons.forEach((pokemon) => {
+      pets.forEach((pet) => {
         const row = `
           <tr>
-            <td>${pokemon._id}</td>
-            <td>${pokemon.name}</td>
-            <td>${pokemon.type}</td>
-            <td>${pokemon.level}</td>
+            <td>${pet._id}</td>
+            <td>${pet.name}</td>
+            <td>${pet.breed}</td>
+            <td>${pet.age}</td>
             <td>
-              <button onclick="deletePokemon('${pokemon._id}')">Delete</button>
-              <button onclick="updatePokemon('${pokemon._id}')">Update</button>
+              <button onclick="deletePet('${pet._id}')">Delete</button>
+              <button onclick="updatePet('${pet._id}')">Update</button>
             </td>
           </tr>
         `;
@@ -128,41 +129,41 @@
     }
 
     // Delete Pokémon
-    async function deletePokemon(id) {
+    async function deletePet(id) {
       const response = await fetch(`${baseUrl}/${id}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        alert('Pokémon deleted successfully!');
-        getAllPokemon();
+        alert('Pet deleted successfully!');
+        getAllPets();
       } else {
-        alert('Failed to delete Pokémon.');
+        alert('Failed to delete Pet.');
       }
     }
 
     // Update Pokémon
-    async function updatePokemon(id) {
+    async function updatePet(id) {
       const name = prompt('Enter new name:');
-      const type = prompt('Enter new type:');
-      const level = prompt('Enter new level:');
+      const breed = prompt('Enter new breed:');
+      const age = prompt('Enter new age:');
 
       const response = await fetch(`${baseUrl}/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, type, level }),
+        body: JSON.stringify({ name, breed, age }),
       });
 
       if (response.ok) {
-        alert('Pokémon updated successfully!');
-        getAllPokemon();
+        alert('Pet updated successfully!');
+        getAllPets();
       } else {
-        alert('Failed to update Pokémon.');
+        alert('Failed to update Pet.');
       }
     }
 
     // Fetch all Pokémon on page load
-    getAllPokemon();
+    getAllPets();
   </script>
 </body>
 </html>
